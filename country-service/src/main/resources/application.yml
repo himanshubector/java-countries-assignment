@@ -1,0 +1,18 @@
+spring:
+  profiles:
+    active: default
+server:
+  port: 8080
+country:
+  region:
+    asia: Asia
+external:
+  api:
+    countriesApiUrl: 'https://restcountries.com/v3.1/all'
+    countriesByRegionApiUrl: 'https://restcountries.com/v3.1/region/{region}'
+    countriesByCodeApiUrl: 'https://restcountries.com/v3.1/alpha/{code}'
+logging:
+  level:
+    com:
+      acc:
+        countries: DEBUG
