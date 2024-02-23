@@ -85,4 +85,14 @@ This endpoint will fetch the details of the asian country which has the most non
 
 
 
+Dockerization of the Application and Deploying the Application to the local Kubernetes Cluster :
+
+<img width="872" alt="Screenshot 2024-02-23 at 3 22 38 PM" src="https://github.com/himanshubector/java-countries-assignment/assets/107288435/35c90561-cccc-4fe8-acfc-630442f09bc6">
+
+
+<img width="916" alt="Screenshot 2024-02-23 at 3 23 06 PM" src="https://github.com/himanshubector/java-countries-assignment/assets/107288435/230a5ea9-d5c5-44d7-87ec-d1ea0171a7c0">
+
+
+
+
 
