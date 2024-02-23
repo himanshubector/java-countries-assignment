@@ -1,6 +1,3 @@
-spring:
-  profiles:
-    active: default
 server:
   port: 8080
 country:
@@ -15,4 +12,4 @@ logging:
   level:
     com:
       acc:
-        countries: DEBUG
+        countries: ERROR
