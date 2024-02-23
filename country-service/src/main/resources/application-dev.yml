@@ -7,4 +7,4 @@ logging:
   level:
     com:
       acc:
-        countries: INFO
+        countries: ERROR
