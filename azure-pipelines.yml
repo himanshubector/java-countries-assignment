@@ -32,6 +32,8 @@ stages:
       displayName: 'Maven Package'
       inputs:
         mavenPomFile: 'pom.xml'
+        mavenOptions: '-Xmx3072m'
+        javaHomeOption: 'JDKVersion'
         goals: 'package'
 - stage: DockerImageBuild
   displayName: Docker Image Build stage
