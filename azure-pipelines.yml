@@ -19,6 +19,8 @@ variables:
 
 pool: 
  name: 'azureagent'
+ demands:
+    - maven
 
 
 stages:
