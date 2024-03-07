@@ -17,7 +17,8 @@ variables:
   tag: '$(Build.BuildId)'
 
 
-  pool: azureagent
+pool: 
+ name: 'azureagent'
 
 
 stages:
