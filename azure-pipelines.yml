@@ -40,7 +40,7 @@ stages:
     displayName: Push
     steps:
     - task: Docker@2
-      displayName: Push the image
+      displayName: Push the image to Azure container registry
       inputs:
         containerRegistry: '$(dockerRegistryServiceConnection)'
         repository: '$(imageRepository)'
