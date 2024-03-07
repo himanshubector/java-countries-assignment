@@ -31,7 +31,7 @@ stages:
     - task: Maven@3
       displayName: 'Maven Package'
       inputs:
-        mavenPomFile: '$(system.defaultWorkingDirectory)/pom.xml'
+        mavenPomFile: '/pom.xml'
         goals: 'package'
 - stage: DockerImageBuild
   displayName: Docker Image Build stage
