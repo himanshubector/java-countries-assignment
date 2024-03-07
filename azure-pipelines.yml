@@ -1,44 +1,58 @@
 trigger:
 - main
 
-pool:
-  name: 'azureagent'
+resources:
+- repo: self
 
 variables:
+  # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '51c91df1-b737-4398-8647-55cf4bcbd92f'
   imageRepository: 'himanshubectorjavacountriesassignment'
   containerRegistry: 'himanshuazurecicd.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/country-service/Dockerfile'
   tag: '$(Build.BuildId)'
 
+
+pool: 
+  name: 'azureagent'
+
 stages:
-- stage: Build
-  displayName: 'Build Stage'
-  jobs:
-  - job: MavenAndDocker
-    displayName: 'Maven and Docker Build'
+- stage: MavenBuild
+  displayName: Maven Build stage
+  jobs:  
+  - job: MavenBuild
+    displayName: Build Maven Project
+    container: maven:3.8.4-jdk-11  # Use Maven Docker image
     steps:
-    - script: |
-        wget https://apache.mirror.digitalpacific.com.au/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.tar.gz
-        tar xzf apache-maven-3.8.4-bin.tar.gz -C /opt
-        echo "export MAVEN_HOME=/opt/apache-maven-3.8.4" >> ~/.bashrc
-        echo "export PATH=$PATH:/opt/apache-maven-3.8.4/bin" >> ~/.bashrc
-        source ~/.bashrc
-      displayName: 'Install Maven'
-
-    - task: Maven@3
+    - checkout: self
+    - script: 'mvn clean package'
       displayName: 'Maven Package'
-      inputs:
-        mavenPomFile: 'country-service/pom.xml'
-        goals: 'clean package'
-        publishJUnitResults: true
-        testResultsFiles: '**/surefire-reports/TEST-*.xml'
 
+- stage: DockerImageBuild
+  displayName: Docker Image Build stage
+  jobs:
+  - job: DockerImageBuild
+    displayName: Docker Image Build
+    steps:
     - task: Docker@2
-      displayName: 'Build and Push Docker Image'
+      displayName: Build the image
       inputs:
         containerRegistry: '$(dockerRegistryServiceConnection)'
         repository: '$(imageRepository)'
-        command: 'buildAndPush'
+        command: 'build'
         Dockerfile: '**/Dockerfile'
+        tags: '$(tag)'
+        
+- stage: Push
+  displayName: Push stage
+  jobs:
+  - job: Push
+    displayName: Push
+    steps:
+    - task: Docker@2
+      displayName: Push the image to Azure container registry
+      inputs:
+        containerRegistry: '$(dockerRegistryServiceConnection)'
+        repository: '$(imageRepository)'
+        command: 'push'
         tags: '$(tag)'
