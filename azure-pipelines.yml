@@ -21,6 +21,7 @@ pool:
  name: 'azureagent'
  demands:
     - maven
+    - Agent.Version -gtVersion 2.182.1
 
 
 stages:
