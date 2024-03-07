@@ -32,7 +32,9 @@ stages:
       displayName: 'Maven Package'
       inputs:
         mavenPomFile: 'country-service/pom.xml'
-        goals: 'package'
+        goals: 'clean package'
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
 - stage: DockerImageBuild
   displayName: Docker Image Build stage
   jobs:
