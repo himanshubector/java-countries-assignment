@@ -1,3 +1,9 @@
+
+
+# Docker
+# Build and push an image to Azure Container Registry
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
 trigger:
 - main
 
@@ -14,7 +20,8 @@ variables:
 
 
 pool: 
-  name: 'azureagent'
+ name: 'azureagent'
+
 
 stages:
 - stage: MavenBuild
@@ -22,12 +29,21 @@ stages:
   jobs:  
   - job: MavenBuild
     displayName: Build Maven Project
-    container: maven:3.8.4-jdk-11  # Use Maven Docker image
     steps:
-    - checkout: self
-    - script: 'mvn clean package'
+    - script: |
+        wget https://apache.mirror.digitalpacific.com.au/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.tar.gz
+        tar xzf apache-maven-3.8.4-bin.tar.gz -C /opt
+        echo "export MAVEN_HOME=/opt/apache-maven-3.8.4" >> ~/.bashrc
+        echo "export PATH=$PATH:/opt/apache-maven-3.8.4/bin" >> ~/.bashrc
+        source ~/.bashrc
+      displayName: 'Install Maven'
+    - task: Maven@3
       displayName: 'Maven Package'
-
+      inputs:
+        mavenPomFile: 'country-service/pom.xml'
+        goals: 'clean package'
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
 - stage: DockerImageBuild
   displayName: Docker Image Build stage
   jobs:
@@ -42,7 +58,6 @@ stages:
         command: 'build'
         Dockerfile: '**/Dockerfile'
         tags: '$(tag)'
-        
 - stage: Push
   displayName: Push stage
   jobs:
@@ -56,3 +71,8 @@ stages:
         repository: '$(imageRepository)'
         command: 'push'
         tags: '$(tag)'
+
+
+
+
+
