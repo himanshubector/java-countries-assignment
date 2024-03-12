@@ -2,10 +2,10 @@
 
 Clone the below application repository from the version control system (GitHub) 
 
-Repository url : https://github.com/himanshubector/java-countries-assignment
+Repository url : https://github.com/himanshubector/java-countries-service
 
 You can use the below git command to clone the repository -
-git clone https://github.com/himanshubector/java-countries-assignment
+git clone https://github.com/himanshubector/java-countries-service
 
 
 Following will be the structure of the cloned repository in your local system -
